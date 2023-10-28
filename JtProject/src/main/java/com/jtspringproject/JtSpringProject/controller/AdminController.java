@@ -237,20 +237,21 @@ public class AdminController {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommjava","root","");
 			PreparedStatement stmt = con.prepareStatement("select * from users where username = ?"+";");
 			stmt.setString(1, usernameforclass);
-			ResultSet rst = stmt.execute();
-			
-			if(rst.next())
-			{
-			int userid = rst.getInt(1);
-			displayusername = rst.getString(2);
-			displayemail = rst.getString(3);
-			displaypassword = rst.getString(4);
-			displayaddress = rst.getString(5);
-			model.addAttribute("userid",userid);
-			model.addAttribute("username",displayusername);
-			model.addAttribute("email",displayemail);
-			model.addAttribute("password",displaypassword);
-			model.addAttribute("address",displayaddress);
+			if (stmt.execute()) {
+				ResultSet rst = stmt.getResultSet();
+
+				if (rst.next()) {
+					int userid = rst.getInt(1);
+					displayusername = rst.getString(2);
+					displayemail = rst.getString(3);
+					displaypassword = rst.getString(4);
+					displayaddress = rst.getString(5);
+					model.addAttribute("userid", userid);
+					model.addAttribute("username", displayusername);
+					model.addAttribute("email", displayemail);
+					model.addAttribute("password", displaypassword);
+					model.addAttribute("address", displayaddress);
+				}
 			}
 		}
 		catch(Exception e)
